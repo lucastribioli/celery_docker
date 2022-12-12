@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 services:
     rabbit:
         hostname: rabbit
@@ -8,6 +8,8 @@ services:
             - RABBITMQ_DEFAULT_PASS=mypass
         ports:
             - "5673:5672"
+        networks:
+            - my_network
 
     worker:
         build:
@@ -19,8 +21,24 @@ services:
             - rabbit
         depends_on:
             - rabbit
+        networks:
+            - my_network
     database:
         hostname: mongo
         image: mongo:latest
         ports:
             - "27018:27017"
+        networks:
+            - my_network
+
+    pgi-import-flower:
+        image: mher/flower
+        container_name: pgi-import-flower
+        ports:
+            - "5556:5555"
+        networks:
+            - my_network
+
+networks:
+    my_network:
+        name: my_network
