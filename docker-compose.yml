@@ -1,26 +1,28 @@
 version: '3.5'
 services:
-    rabbit:
+    rabbitmq:
         hostname: rabbit
-        image: rabbitmq:latest
+        container_name: rabbitmq
+        image: rabbitmq:3-management
         environment:
             - RABBITMQ_DEFAULT_USER=admin
             - RABBITMQ_DEFAULT_PASS=mypass
         ports:
-            - "5673:5672"
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
+            
         networks:
             - my_network
-
     worker:
         build:
             context: .
             dockerfile: dockerfile
         volumes:
             - .:/app
-        links:
-            - rabbit
         depends_on:
-            - rabbit
+            - rabbitmq
         networks:
             - my_network
     database:
@@ -30,15 +32,7 @@ services:
             - "27018:27017"
         networks:
             - my_network
-
-    pgi-import-flower:
-        image: mher/flower
-        container_name: pgi-import-flower
-        ports:
-            - "5556:5555"
-        networks:
-            - my_network
-
+            
 networks:
     my_network:
-        name: my_network
+        driver: bridge

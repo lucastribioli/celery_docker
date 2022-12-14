@@ -9,9 +9,7 @@
 ### Aplicação
 ---
 ```
-docker pull rabbitmq:latest
-
-docker-compose build
+docker-compose build --no-cache
 
 docker-compose up
 
