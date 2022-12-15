@@ -12,10 +12,10 @@ services:
             - 15672:15672
         volumes:
             - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
-            
         networks:
             - my_network
     worker:
+        container_name: worker
         build:
             context: .
             dockerfile: dockerfile
