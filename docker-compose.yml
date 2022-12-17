@@ -14,19 +14,9 @@ services:
             - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
         networks:
             - my_network
-    worker:
-        container_name: worker
-        build:
-            context: .
-            dockerfile: dockerfile
-        volumes:
-            - .:/app
-        depends_on:
-            - rabbitmq
-        networks:
-            - my_network
     database:
         hostname: mongo
+        container_name: database
         image: mongo:latest
         ports:
             - "27018:27017"

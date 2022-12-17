@@ -13,6 +13,6 @@ docker-compose build --no-cache
 
 docker-compose up
 
-docker-compose scale worker=5
+celery -A celery worker -l INFO
 
 ```
