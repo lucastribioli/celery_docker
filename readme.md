@@ -9,6 +9,8 @@
 ### Aplicação
 ---
 ```
+pip install -r requirements.txt
+
 docker-compose build --no-cache
 
 docker-compose up
